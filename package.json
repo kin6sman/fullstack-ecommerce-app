@@ -1,0 +1,12 @@
+{
+  "name": "ecommerceapp",
+  "version": "1.0.0",
+  "description": "Ecommerce Rest API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "Rahul Sharma",
+  "license": "ISC"
+}
