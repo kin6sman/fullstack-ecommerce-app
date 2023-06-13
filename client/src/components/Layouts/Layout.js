@@ -8,7 +8,7 @@ import Footer from './Footer'
 
       <Header/>
         <main style={{minHeight: '80vh'}}>
-          {children}
+          <h1>{children}</h1>
         </main>
       <Footer/>
      </div>
