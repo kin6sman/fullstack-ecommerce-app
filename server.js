@@ -9,7 +9,7 @@ import authRoutes from './routes/authRoute.js'
 const app = express()
 // congigure env
 dotenv.config();
-// databse
+// databse 
 connectDB();
 // port
 const PORT = process.env.PORT || 8080;
