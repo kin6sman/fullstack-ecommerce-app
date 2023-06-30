@@ -1,3 +1,5 @@
+// note: install express-formidable as a middleware to upload images to mongo
+
 import slugify from "slugify";
 import productModel from "../models/productModel.js"
 import fs from 'fs'
@@ -18,11 +20,11 @@ export const createProductController = async (req, res) => {
 
       case !quantity: return res.status(500).send({ error: "quantity is required" });
 
-      case !shipping: return res.status(500).send({ error: "shipping is required" });
+      // case !shipping: return res.status(500).send({ error: "shipping is required" });
 
       case !description: return res.status(500).send({ error: "description is required" });
 
-      case photo && photo.size > 10000 :  
+      case photo && photo.size > 1000000 :  
       return res.status(500).send({ error: "photo is required less than 1 mb" });
 
     }
@@ -35,8 +37,10 @@ export const createProductController = async (req, res) => {
     await product.save();
     res.status(201).send({
       success: true,
+      
       message: 'Product Created Successfully',
-      product
+      product,
+      
     })
 
   } catch (error) {
@@ -49,5 +53,23 @@ export const createProductController = async (req, res) => {
 }
 
 
+// get all product
 
-// note: install express-formidable as a middleware to upload images to mongo
+export const getProduct = async (req, res) => {
+  try {
+    const product = await productModel.find({}).select("-photo").limit(12).sort({createdAt:-1})
+    res.status(200).send({
+      success: true,
+      total: product.length,
+      message: 'Successfully getting all products',
+      product
+    })
+    
+  } catch (error) {
+    res.status(500).send({
+      success: false,
+      error,
+      message: 'Error in getting Product'
+    })
+  }
+}
