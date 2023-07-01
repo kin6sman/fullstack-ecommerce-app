@@ -4,7 +4,8 @@ import AdminMenu from '../../components/Layouts/AdminMenu'
 import { toast } from 'react-hot-toast';
 import axios from 'axios';
 import CategoryForm from '../../components/Form/CategoryForm';
-import { Button, Modal } from 'antd';
+// Ant design is added to show model to edit category
+import { Modal } from 'antd';
 
 const CreateCategory = () => {
   const [categories, setCategories] = useState([]);
@@ -65,6 +66,23 @@ const CreateCategory = () => {
     }
   }
 
+   // delete category
+   const handleDelete = async (id) => {
+    try {
+      const {data} = await axios.delete(`${process.env.REACT_APP_API}/api/v1/category/delete-category/${id}`);
+      if(data?.success){
+        toast.success(`Category is deleted`)    
+        getAllCategories();
+      }else{
+        toast.error(data.message)
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error('Somenthing went wrong while update')
+    }
+  }
+
+
   useEffect(() => { 
     getAllCategories();
     
@@ -108,7 +126,7 @@ const CreateCategory = () => {
                                   }>
                                     Edit
                                   </  button>
-                              <button className='btn btn-danger ms-2'>Delete</  button>
+                              <button className='btn btn-danger ms-2' onClick={() => handleDelete(c._id)}>Delete</  button>
                             </td>
                           </tr>
                         </>
