@@ -3,9 +3,11 @@ import userModel from '../models/userModel.js'
 import { comparePassword, hashPassword } from '../utils/authHelper.js';
 import JWT from 'jsonwebtoken';
 
+// Registration 
 export const registerController = async(req, res) => {
   try {
     const {name, email, password, phone, address} = req.body;
+
     // validation
     if(!name){
       return res.send({ message: 'Name is required'})
@@ -22,13 +24,16 @@ export const registerController = async(req, res) => {
     if(!phone){
       return res.send({ message: 'Phone is required'})
     }
+    
     // check user
     const exisitingUser = await userModel.findOne({email});
+
     // existing user
     if(exisitingUser){
       return res.status(200).send({ success: false,
         error: 'Already Register User, Please login'})
     }
+
     // register user
     const hashedPassword = await hashPassword(password);
     // save

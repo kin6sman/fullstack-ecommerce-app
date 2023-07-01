@@ -14,3 +14,5 @@ router.post('/create-product', requireSignIn, isAdmin, formindable(), createProd
 router.get('/get-product', getProduct)
 
 export default router;
+
+// 5:16
