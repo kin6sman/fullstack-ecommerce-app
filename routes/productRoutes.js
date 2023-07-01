@@ -1,6 +1,6 @@
 import express from 'express'
 import { isAdmin, requireSignIn } from '../middlewares/authMiddleware.js';
-import { createProductController, getProduct } from '../controllers/productController.js';
+import { createProductController, deleteProductController, getProduct, getSingleProduct, productPhotoController, updateProductController } from '../controllers/productController.js';
 import formindable from 'express-formidable'
 
 const router = express.Router();
@@ -10,8 +10,23 @@ const router = express.Router();
 // create Route
 router.post('/create-product', requireSignIn, isAdmin, formindable(), createProductController);
 
+
+// update product Route
+router.put('/update-product/:pid', requireSignIn, isAdmin, formindable(), updateProductController);
+
 // get all Product route
 router.get('/get-product', getProduct)
+
+// get all Product route
+router.get('/get-product/:slug', getSingleProduct)
+
+// delete Product
+router.delete('/delete-product/:pid', deleteProductController)
+
+// get photos
+router.get('/product-photo/:pid', productPhotoController)
+
+
 
 export default router;
 
