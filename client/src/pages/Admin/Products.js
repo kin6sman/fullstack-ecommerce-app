@@ -15,7 +15,7 @@ const Products = () => {
       const { data } = await axios.get(
         `${process.env.REACT_APP_API}/api/v1/product/get-product`
       );
-      console.log(data.product);
+
       setProducts(data.product);
     } catch (error) {
       console.log(error);
@@ -29,7 +29,7 @@ const Products = () => {
 
   return (
     <Layout>
-      <div className='row dashboard'>
+      <div className='row dashboard mt-3'>
         <div className='col-md-3'>
           <AdminMenu />
         </div>
