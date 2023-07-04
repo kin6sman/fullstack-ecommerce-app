@@ -7,6 +7,7 @@ import {
   getSingleProduct,
   productFiltersController,
   productPhotoController,
+  searchProductController,
   updateProductController,
 } from "../controllers/productController.js";
 import formindable from "express-formidable";
@@ -47,6 +48,9 @@ router.get("/product-photo/:pid", productPhotoController);
 
 // filter product
 router.post("/product-filters", productFiltersController);
+
+// SERACH PRODUCT
+router.get("/search/:keyword", searchProductController);
 
 export default router;
 
