@@ -4,6 +4,7 @@ import { useAuth } from "../context/auth";
 import axios from "axios";
 import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Utilities/Prices";
+import { useNavigate } from "react-router-dom";
 
 const productPerRow = 1;
 
@@ -15,6 +16,7 @@ const HomePage = () => {
   const [checked, setChecked] = useState([]);
   const [radio, setRadio] = useState([]);
   const [next, setNext] = useState(productPerRow);
+  const navigate = useNavigate();
 
   const handleMoreProduct = () => {
     setNext(next + productPerRow);
@@ -141,7 +143,12 @@ const HomePage = () => {
                     {p.description.substring(0, 30)}
                   </p>
                   <p className='card-text fs-6'>${p.price}</p>
-                  <button className='btn btn-secondary'>More Details</button>
+                  <button
+                    className='btn btn-secondary'
+                    onClick={() => navigate(`/product/${p.slug}`)}
+                  >
+                    More Details
+                  </button>
                   <button className='btn btn-primary ms-4'>Add to Cart</button>
                 </div>
               </div>
