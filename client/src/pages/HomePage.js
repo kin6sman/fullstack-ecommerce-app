@@ -2,7 +2,10 @@ import React, { useEffect, useState } from "react";
 import Layout from "../components/Layouts/Layout";
 import { useAuth } from "../context/auth";
 import axios from "axios";
-import { Checkbox } from "antd";
+import { Checkbox, Radio } from "antd";
+import { Prices } from "../components/Utilities/Prices";
+
+const productPerRow = 1;
 
 const HomePage = () => {
   const [auth, setAuth] = useAuth();
@@ -10,6 +13,13 @@ const HomePage = () => {
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [checked, setChecked] = useState([]);
+  const [radio, setRadio] = useState([]);
+  const [next, setNext] = useState(productPerRow);
+
+  const handleMoreProduct = () => {
+    setNext(next + productPerRow);
+  };
+
   // get all categories
   const getAllCategories = async () => {
     try {
@@ -52,14 +62,34 @@ const HomePage = () => {
 
   useEffect(() => {
     getAllCategories();
-    getAllProducts();
-  }, []);
+    if (!checked.length || !radio.length) getAllProducts();
+  }, [checked.length, radio.length]);
+
+  useEffect(() => {
+    if (checked.length || radio.length) filterProduct();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checked, radio]);
+
+  // filter product from backend
+  const filterProduct = async () => {
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_API}/api/v1/product/product-filters`,
+        { checked, radio }
+      );
+      setProducts(data?.products);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <Layout title={"Best Offers"}>
       <div className='row mt-3'>
         <div className='col-md-2 '>
+          {/* Filter by Category */}
           <h6 className='text-center'>Filter By Category</h6>
-          <div className='d-flex flex-column'>
+          <div className='d-flex flex-column ms-2'>
             {categories?.map((c) => (
               <>
                 <Checkbox
@@ -71,12 +101,34 @@ const HomePage = () => {
               </>
             ))}
           </div>
+
+          {/* Price filter */}
+          <h6 className='text-center mt-3'>Filter By Prices</h6>
+          <div className='d-flex flex-column ms-2'>
+            <Radio.Group onChange={(event) => setRadio(event.target.value)}>
+              {Prices?.map((product) => (
+                <div key={product._id}>
+                  <Radio value={product.array}>{product.name}</Radio>
+                </div>
+              ))}
+            </Radio.Group>
+            {/* reset button */}
+            <div className='d-flex flex-column mt-3'>
+              <button
+                className='btn btn-danger'
+                onClick={() => window.location.reload()}
+              >
+                Reset Filter
+              </button>
+            </div>
+          </div>
         </div>
-        <div className='col-md-9'>
-          {JSON.stringify(checked, null, 4)}
+
+        {/* Product Page */}
+        <div className='col-md-9 '>
           <h1 className='text-center'>All Products</h1>
           <div className='d-flex flex-wrap'>
-            {products?.map((p) => (
+            {products?.slice(0, next)?.map((p) => (
               <div className='card m-2' style={{ width: "18rem" }}>
                 <img
                   src={`${process.env.REACT_APP_API}/api/v1/product/product-photo/${p._id}`}
@@ -85,13 +137,26 @@ const HomePage = () => {
                 />
                 <div className='card-body'>
                   <h5 className='card-title fs-3'>{p.name}</h5>
-                  <p className='card-text fs-6'>{p.description}</p>
+                  <p className='card-text fs-6'>
+                    {p.description.substring(0, 30)}
+                  </p>
+                  <p className='card-text fs-6'>${p.price}</p>
                   <button className='btn btn-secondary'>More Details</button>
                   <button className='btn btn-primary ms-4'>Add to Cart</button>
                 </div>
               </div>
             ))}
           </div>
+        </div>
+        <div className='d-flex justify-content-center'>
+          {next < products?.length && (
+            <button
+              className='btn btn-outline-secondary mt-4 '
+              onClick={handleMoreProduct}
+            >
+              Load more....
+            </button>
+          )}
         </div>
       </div>
     </Layout>
