@@ -100,3 +100,13 @@ font-family: 'Playfair', serif;
   text-decoration: none !important;
   color: white !important;
 }
+
+/* Cart Style */
+.vertical-scrollable > .row {
+  /* position: absolute; */
+  top: 120px;
+  bottom: 100px;
+  /* left: 20px; */
+  /* width: 50%; */
+  overflow-y: scroll;
+}
