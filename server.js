@@ -1,37 +1,46 @@
-import  express  from "express";
+import express from "express";
 import dotenv from "dotenv";
-import colors from 'colors';
-import morgan from 'morgan'
+import colors from "colors";
+import morgan from "morgan";
 import connectDB from "./config/db.js";
-import authRoutes from './routes/authRoute.js'
-import categoryRoutes from './routes/categoryRoute.js'
-import cors from 'cors';
-import productRoute from './routes/productRoutes.js'
+import authRoutes from "./routes/authRoute.js";
+import categoryRoutes from "./routes/categoryRoute.js";
+import cors from "cors";
+import productRoute from "./routes/productRoutes.js";
+import paymentRoute from "./routes/paymentRoutes.js";
+import Razorpay from "razorpay";
 
 // rest object
-const app = express()
+const app = express();
 // congigure env
 dotenv.config();
-// databse 
+// databse
 connectDB();
 // port
 const PORT = process.env.PORT || 8080;
 // middleware
-app.use(cors()); 
+app.use(cors());
 app.use(express.json());
-app.use(morgan('dev'))
+app.use(morgan("dev"));
+app.use(express.urlencoded({ extended: true }));
 
 // routes
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/category', categoryRoutes);
-app.use('/api/v1/product', productRoute);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/category", categoryRoutes);
+app.use("/api/v1/product", productRoute);
+app.use("/api", paymentRoute);
 
-//rest api
-app.get('/', (req, res) => {
-  res.send("<h1>HEllo</h1>")
-})
+export const instance = new Razorpay({
+  key_id: process.env.RAZORPAY_API_KEY,
+  key_secret: process.env.RAZORPAY_APT_SECRET,
+});
 
-//run listen 
+//run listen
 app.listen(PORT, () => {
-  console.log('server running on '.bgCyan.bold + process.env.DEV_MODE .bgBlue.bold + " mode on: " + PORT .bgCyan.white);
-})
+  console.log(
+    "server running on ".bgCyan.bold +
+      process.env.DEV_MODE.bgBlue.bold +
+      " mode on: " +
+      PORT.bgCyan.white
+  );
+});

@@ -4,7 +4,7 @@ import { Payment } from "../models/paymentModel.js";
 
 export const checkout = async (req, res) => {
   try {
-    console.log("hello Rahul");
+    // console.log("hello Rahul");
     const options = {
       amount: Number(req.body.amount * 100),
       currency: "INR",
@@ -24,33 +24,39 @@ export const checkout = async (req, res) => {
 };
 
 export const paymentVerification = async (req, res) => {
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
-    req.body;
+  try {
+    console.log(req.body);
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
+      req.body;
 
-  const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
 
-  const expectedSignature = crypto
-    .createHmac("sha256", process.env.RAZORPAY_APT_SECRET)
-    .update(body.toString())
-    .digest("hex");
+    const expectedSignature = crypto
+      .createHmac("sha256", process.env.RAZORPAY_APT_SECRET)
+      .update(body.toString())
+      .digest("hex");
 
-  const isAuthentic = expectedSignature === razorpay_signature;
+    const isAuthentic = expectedSignature === razorpay_signature;
 
-  if (isAuthentic) {
-    // Database comes here
+    if (isAuthentic) {
+      // Database comes here
 
-    await Payment.create({
-      razorpay_order_id,
-      razorpay_payment_id,
-      razorpay_signature,
-    });
+      await Payment.create({
+        razorpay_order_id,
+        razorpay_payment_id,
+        razorpay_signature,
+      });
 
-    res.redirect(
-      `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
-    );
-  } else {
-    res.status(400).json({
-      success: false,
-    });
+      res.status(200).send({
+        success: true,
+        message: req.body,
+      });
+    } else {
+      res.status(400).json({
+        success: false,
+      });
+    }
+  } catch (error) {
+    console.log(error);
   }
 };

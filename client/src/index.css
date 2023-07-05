@@ -12,6 +12,15 @@ font-family: 'Playfair', serif;
 
 /* navbar css */
 
+.header {
+  background-color: #1d202e !important;
+  /* color: white !important; */
+}
+
+.header-heading {
+  color: white !important;
+}
+
 .navbar {
   font-family: "Poppins", sans-serif;
   font-size: 17px;
@@ -38,6 +47,7 @@ font-family: 'Playfair', serif;
 
 /* ------------> footer */
 .footer {
+  /* height: 200px !important; */
   color: white;
   padding: 25px;
   background: #000;

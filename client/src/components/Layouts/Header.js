@@ -23,7 +23,7 @@ const Header = () => {
 
   return (
     <>
-      <nav className='navbar navbar-expand-lg bg-body-tertiary'>
+      <nav className='navbar navbar-expand-lg bg-body-tertiary header '>
         <div className='container-fluid'>
           <button
             className='navbar-toggler'
@@ -36,36 +36,44 @@ const Header = () => {
           >
             <span className='navbar-toggler-icon' />
           </button>
-          <div className='collapse navbar-collapse' id='navbarTogglerDemo01'>
-            <Link to='/' className='navbar-brand'>
-              <AiFillShop /> Ecommerce App
+          <div className='collapse navbar-collapse ' id='navbarTogglerDemo01'>
+            <Link to='/' className='navbar-brand text-light'>
+              <AiFillShop /> Rahul Store
             </Link>
             <ul className='navbar-nav ms-auto mb-2 mb-lg-0'>
               <SearchInput />
               <li className='nav-item'>
                 <NavLink
                   to='/'
-                  className='nav-link active'
+                  className='nav-link active text-light'
                   aria-current='page'
                   href='#'
                 >
                   Home
                 </NavLink>
               </li>
-              <li className='nav-item'>
+              {/* <li className='nav-item'>
                 <NavLink to='/category' className='nav-link' href='#'>
                   Category
                 </NavLink>
-              </li>
+              </li> */}
               {!auth.user ? (
                 <>
                   <li className='nav-item'>
-                    <NavLink to='/register' className='nav-link' href='#'>
+                    <NavLink
+                      to='/register'
+                      className='nav-link text-light'
+                      href='#'
+                    >
                       Register
                     </NavLink>
                   </li>
                   <li className='nav-item'>
-                    <NavLink to='/login' className='nav-link' href='#'>
+                    <NavLink
+                      to='/login'
+                      className='nav-link text-light'
+                      href='#'
+                    >
                       Login
                     </NavLink>
                   </li>
@@ -74,7 +82,7 @@ const Header = () => {
                 <>
                   <li className='nav-item dropdown'>
                     <NavLink
-                      className='nav-link dropdown-toggle'
+                      className='nav-link dropdown-toggle text-light'
                       role='button'
                       data-bs-toggle='dropdown'
                       aria-expanded='false'
@@ -87,7 +95,7 @@ const Header = () => {
                           to={`/dashboard/${
                             auth?.user?.role === 1 ? "admin" : "user"
                           }`}
-                          className='dropdown-item'
+                          className='dropdown-item text-dark'
                         >
                           Dashboard
                         </NavLink>
@@ -96,7 +104,7 @@ const Header = () => {
                         <NavLink
                           to='/login'
                           onClick={handleLogout}
-                          className='nav-link'
+                          className='nav-link text-dark'
                           href='#'
                         >
                           Logout
@@ -108,7 +116,7 @@ const Header = () => {
               )}
               <li className='nav-item'>
                 <Badge count={cart?.length} showZero>
-                  <NavLink to='/cart' className='nav-link' href='#'>
+                  <NavLink to='/cart' className='nav-link text-light' href='#'>
                     Cart
                   </NavLink>
                 </Badge>
