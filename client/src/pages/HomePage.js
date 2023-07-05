@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { useCart } from "../context/cart";
 import { toast } from "react-hot-toast";
 
-const productPerRow = 1;
+const productPerRow = 5;
 
 const HomePage = () => {
   const [auth, setAuth] = useAuth();
@@ -21,6 +21,7 @@ const HomePage = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useCart([]);
 
+  // pagination
   const handleMoreProduct = () => {
     setNext(next + productPerRow);
   };
@@ -66,6 +67,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
+    // getAllProducts();
     getAllCategories();
     if (!checked.length || !radio.length) getAllProducts();
   }, [checked.length, radio.length]);
