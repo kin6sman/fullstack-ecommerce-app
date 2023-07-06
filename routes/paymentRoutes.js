@@ -7,7 +7,7 @@ import {
 const router = express.Router();
 
 router.get("/getkey", (req, res) =>
-  res.status(200).json({ key: process.env.RAZORPAY_API_KEY })
+  res.status(200).json({ key: "rzp_test_xJ0DVeZbsTDNR7" })
 );
 
 router.route("/checkout").post(checkout);
