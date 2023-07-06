@@ -43,8 +43,8 @@ app.use("*", (req, res) => {
 });
 
 export const instance = new Razorpay({
-  key_id: process.env.RAZORPAY_API_KEY,
-  key_secret: process.env.RAZORPAY_APT_SECRET,
+  key_id: "rzp_test_xJ0DVeZbsTDNR7",
+  key_secret: "hh1qu7f4CcJZtUSykYiP7U9u",
 });
 
 //run listen
