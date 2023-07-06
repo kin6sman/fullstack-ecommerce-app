@@ -50,9 +50,9 @@ export const instance = new Razorpay({
 //run listen
 app.listen(PORT, () => {
   console.log(
-    "server running on ".bgCyan.bold +
-      process.env.DEV_MODE.bgBlue.bold +
+    "server running on " +
+      process.env.DEV_MODE +
       " mode on: " +
-      PORT.bgCyan.white
+      PORT
   );
 });
