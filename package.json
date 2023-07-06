@@ -2,7 +2,7 @@
   "name": "ecommerceapp",
   "version": "1.0.0",
   "description": "Ecommerce Rest API",
-  "main": "index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
     "start": "node server.js",
